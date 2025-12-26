@@ -19,7 +19,6 @@ class State(ABC):
         pass
     
     def __lt__(self, other: 'State') -> bool:
-        """Default comparison for heap ordering"""
         return hash(self) < hash(other)
 
 class Problem(ABC):
@@ -63,7 +62,6 @@ class TowerOfHanoiState(State):
         return self.__str__()
     
     def __lt__(self, other: 'TowerOfHanoiState') -> bool:
-        """Comparison for heap ordering - use hash for tie-breaking"""
         return hash(self) < hash(other)
     
     def can_move(self, from_peg: int, to_peg: int) -> bool:
@@ -85,7 +83,6 @@ class TowerOfHanoiState(State):
         return TowerOfHanoiState(new_pegs)
     
     def heuristic_estimate(self, goal_pegs: List[List[int]]) -> float:
-        """Heuristic for A* and Greedy search"""
         disks_on_goal = len(self.pegs[2])
         total_disks = self.num_disks
         return total_disks - disks_on_goal
@@ -124,7 +121,6 @@ class TowerOfHanoiProblem(Problem):
         return state.heuristic_estimate(self._goal_pegs)
 
 class Node:
-    """Wrapper class for heap nodes to avoid state comparison issues"""
     def __init__(self, priority, state, path, g_cost=0):
         self.priority = priority
         self.state = state
@@ -313,7 +309,6 @@ class HanoiSolver:
         self.num_disks = num_disks
     
     def solve_with_algorithm(self, algorithm_name: str) -> Tuple[bool, List[Any], Dict[str, Any]]:
-        """Solve using specified algorithm"""
         algorithms = {
             'DFS': DFS,
             'BFS': BFS,
@@ -330,7 +325,6 @@ class HanoiSolver:
         return algorithm.search()
     
     def solve_all(self) -> Dict[str, Dict[str, Any]]:
-        """Solve with all algorithms and compare results"""
         results = {}
         
         algorithms_to_test = ['BFS', 'DFS', 'IDS', 'UCS', 'GREEDY', 'ASTAR']
@@ -365,7 +359,6 @@ class HanoiSolver:
         return results
     
     def _print_results(self, algorithm: str, success: bool, path: List, stats: Dict):
-        """Print formatted results"""
         print(f"\nAlgorithm: {algorithm}")
         print(f"Success: {success}")
         if success:
@@ -519,4 +512,5 @@ def main():
             print("Invalid choice!")
 
 if __name__ == "__main__":
+
     main()
